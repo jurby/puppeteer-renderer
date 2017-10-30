@@ -17,9 +17,11 @@ app.use(async (req, res, next) => {
   let url = req.query.url;
   let landscape = req.query.landscape || false
   let format = req.query.format || 'A4'
+  let user = req.query.user
+  let password = req.query.password
 
   try {
-    const pdf = await renderer.pdf(url, landscape, format);
+    const pdf = await renderer.pdf(url, landscape, format, user, password);
     res.set('Content-type', 'application/pdf').send(pdf);
   } catch (e) {
     next(e);
@@ -29,7 +31,7 @@ app.use(async (req, res, next) => {
 // Error page.
 app.use((err, req, res, next) => {
   console.error(err);
-  res.status(500).send('Oops, An expected error seems to have occurred.');
+  res.status(500).send('There was an error');
 });
 
 // Create renderer and start server.
@@ -38,8 +40,8 @@ createRenderer().then((createdRenderer) => {
   console.info('Initialized renderer.');
 
   app.listen(port, () => {
-    console.info(`Listen port on ${port}.`);
+    console.info(`Listening on port ${port}.`);
   });
 }).catch((e) => {
-  console.error('Fail to initialze renderer.', e);
+  console.error('Failed to initialze renderer.', e);
 });

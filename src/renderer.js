@@ -7,29 +7,12 @@ class Renderer {
     this.browser = browser;
   }
 
-  async createPage(url) {
+  async pdf(url, landscape, format, user, password) {
     const page = await this.browser.newPage();
+    await page.authenticate({ username: user,
+                              password: password});
     await page.goto(url);
-    return page;
-  }
-
-  async render(url) {
-    let page = null;
     try {
-      page = await this.createPage(url);
-      const html = await page.content();
-      return html;
-    } finally {
-      if (page) {
-        await page.close();
-      }
-    }
-  }
-
-  async pdf(url, landscape, format) {
-    let page = null;
-    try {
-      page = await this.createPage(url);
       const buffer = await page.pdf({ format: format,
                                    landscape: landscape });
       return buffer;
