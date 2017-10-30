@@ -9,7 +9,7 @@ class Renderer {
 
   async createPage(url) {
     const page = await this.browser.newPage();
-    await page.goto(url, { waitUntil: 'networkidle' });
+    await page.goto(url);
     return page;
   }
 
@@ -26,24 +26,12 @@ class Renderer {
     }
   }
 
-  async pdf(url) {
+  async pdf(url, landscape, format) {
     let page = null;
     try {
       page = await this.createPage(url);
-      const buffer = await page.pdf({ format: 'A4' });
-      return buffer;
-    } finally {
-      if (page) {
-        await page.close();
-      }
-    }
-  }
-
-  async screenshot(url) {
-    let page = null;
-    try {
-      page = await this.createPage(url);
-      const buffer = await page.screenshot({ fullPage: true });
+      const buffer = await page.pdf({ format: format,
+                                   landscape: landscape });
       return buffer;
     } finally {
       if (page) {
