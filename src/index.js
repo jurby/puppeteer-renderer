@@ -15,8 +15,8 @@ app.disable('x-powered-by');
 // Render url.
 app.use(async (req, res, next) => {
   let url = req.query.url;
-  let landscape = req.query.landscape || false
-  let format = req.query.format || 'A4'
+  let landscape = req.query.landscape === "true"
+  let format = req.query.format
   let user = req.query.user
   let password = req.query.password
 
