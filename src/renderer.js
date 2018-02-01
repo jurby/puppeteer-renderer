@@ -2,8 +2,8 @@
 
 const puppeteer = require('puppeteer');
 
-const BROWSER_WS_ENDPOINT = process.env.BROWSER_WS_ENDPOINT || ''
-const PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = process.env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD || false
+const BROWSER_WS_ENDPOINT = process.env.BROWSER_WS_ENDPOINT || '';
+const PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = process.env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD || false;
 
 const browserOptions = {
   args: [
@@ -39,9 +39,9 @@ async function create() {
   if(PUPPETEER_SKIP_CHROMIUM_DOWNLOAD === true && BROWSER_WS_ENDPOINT.length > 0) {
     browser = await puppeteer.connect({
       browserWSEndpoint: BROWSER_WS_ENDPOINT,
-    })
+    });
   } else {
-    browser = await puppeteer.launch(browserOptions)
+    browser = await puppeteer.launch(browserOptions);
   }
   return new Renderer(browser);
 }
