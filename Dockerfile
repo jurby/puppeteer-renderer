@@ -5,5 +5,5 @@ RUN cd /tmp && npm install
 RUN mkdir -p /app && cp -a /tmp/node_modules /app/
 EXPOSE 80
 WORKDIR /app
-CMD npm run start
 COPY . /app
+CMD npm run start
