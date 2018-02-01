@@ -1,6 +1,6 @@
 FROM zenato/puppeteer
 ENV PORT 3000
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+#ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 USER root
 ADD package.json /tmp/package.json
 RUN cd /tmp && npm install
