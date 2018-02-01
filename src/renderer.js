@@ -2,6 +2,16 @@
 
 const puppeteer = require('puppeteer');
 
+const BROWSER_WS_ENDPOINT = process.env.BROWSER_WS_ENDPOINT || ''
+const PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = process.env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD || false
+
+const browserOptions = {
+  args: [
+    '--no-sandbox',
+    '--disable-setuid-sandbox'
+  ]
+}
+
 class Renderer {
   constructor(browser) {
     this.browser = browser;
@@ -25,7 +35,14 @@ class Renderer {
 }
 
 async function create() {
-  const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
+  let browser
+  if(PUPPETEER_SKIP_CHROMIUM_DOWNLOAD === true && BROWSER_WS_ENDPOINT.length > 0) {
+    browser = await puppeteer.connect({
+      browserWSEndpoint: BROWSER_WS_ENDPOINT,
+    })
+  } else {
+    browser = await puppeteer.launch(browserOptions)
+  }
   return new Renderer(browser);
 }
 
